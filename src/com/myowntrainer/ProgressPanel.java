@@ -1,9 +1,12 @@
 package com.myowntrainer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,7 +15,17 @@ public class ProgressPanel extends SurfaceView implements SurfaceHolder.Callback
         ProgressActivity context;
         PanelThread _thread;      
         public Paint paint = new Paint();
-
+        public Bitmap burpee = BitmapFactory.decodeResource(getResources(), R.drawable.burpeestile);
+        public Bitmap running = BitmapFactory.decodeResource(getResources(), R.drawable.runningtile);
+        public Bitmap pushup = BitmapFactory.decodeResource(getResources(), R.drawable.pushuptile);
+        public Bitmap jumpingjack = BitmapFactory.decodeResource(getResources(), R.drawable.jumpingjacktile);
+        public Bitmap situp = BitmapFactory.decodeResource(getResources(), R.drawable.situptile);
+        Rect burpeeRect = new Rect(150,75,560,500);
+        Rect runningRect =  new Rect(400,400,830,820);
+        Rect pushupRect = new Rect(150,720,560,1140);
+        Rect jumpingjackRect = new Rect(525,75,880,500);
+        Rect situpRect = new Rect(525,720,880,1140);
+        
         //Constructors
         public ProgressPanel(Context context) { 
             super(context);
@@ -30,6 +43,7 @@ public class ProgressPanel extends SurfaceView implements SurfaceHolder.Callback
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        	
         }
         
         @Override
@@ -92,6 +106,10 @@ public class ProgressPanel extends SurfaceView implements SurfaceHolder.Callback
         }
 
         public void draw(Canvas canvas, Paint paint) {
-            int x = 20, y = 25, boxWidth = 50, boxHeight = 75;
+    		canvas.drawBitmap(burpee, null, burpeeRect, paint);
+    		canvas.drawBitmap(running, null, runningRect, paint);
+    		canvas.drawBitmap(pushup, null, pushupRect, paint);
+    		canvas.drawBitmap(jumpingjack, null, jumpingjackRect, paint);
+    		canvas.drawBitmap(situp, null, situpRect, paint);
         }
 }

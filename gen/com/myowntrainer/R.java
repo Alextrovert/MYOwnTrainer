@@ -33,13 +33,32 @@ public final class R {
         public static final int myosdk__fragment_scan_window_width=0x7f050002;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int myosdk__connected_dot=0x7f020001;
-        public static final int myosdk__firmware_incompatible_dot=0x7f020002;
+        public static final int applogo=0x7f020000;
+        public static final int bluetile=0x7f020001;
+        public static final int burpeestile=0x7f020002;
+        public static final int connecttile=0x7f020003;
+        public static final int dailychallengetile=0x7f020004;
+        public static final int doneicon=0x7f020005;
+        public static final int exittile=0x7f020006;
+        public static final int friendstile=0x7f020007;
+        public static final int greytile=0x7f020008;
+        public static final int ic_launcher=0x7f020009;
+        public static final int jumpingjacktile=0x7f02000a;
+        public static final int leaderboardstile=0x7f02000b;
+        public static final int myfitnesstile=0x7f02000c;
+        public static final int myosdk__connected_dot=0x7f02000d;
+        public static final int myosdk__firmware_incompatible_dot=0x7f02000e;
+        public static final int pushuptile=0x7f02000f;
+        public static final int redtile=0x7f020010;
+        public static final int reseticon=0x7f020011;
+        public static final int runningtile=0x7f020012;
+        public static final int settingstile=0x7f020013;
+        public static final int situptile=0x7f020014;
+        public static final int todaytile=0x7f020015;
     }
     public static final class id {
         public static final int action_settings=0x7f090007;
-        public static final int layout=0x7f090000;
+        public static final int button1=0x7f090000;
         public static final int myosdk__action_scan=0x7f090008;
         public static final int myosdk__connection_state_dot=0x7f090005;
         public static final int myosdk__firmware_incompatible_text=0x7f090003;
@@ -49,24 +68,26 @@ public final class R {
         public static final int status=0x7f090001;
     }
     public static final class layout {
-        public static final int activity_excercise=0x7f030000;
-        public static final int activity_excercises=0x7f030001;
-        public static final int activity_friends=0x7f030002;
-        public static final int activity_leader_board=0x7f030003;
-        public static final int activity_main=0x7f030004;
-        public static final int activity_progress_activities=0x7f030005;
-        public static final int myosdk__activity_scan=0x7f030006;
-        public static final int myosdk__device_list_item=0x7f030007;
-        public static final int myosdk__fragment_scan=0x7f030008;
+        public static final int activity_challenge=0x7f030000;
+        public static final int activity_excercise=0x7f030001;
+        public static final int activity_excercises=0x7f030002;
+        public static final int activity_friends=0x7f030003;
+        public static final int activity_leader_board=0x7f030004;
+        public static final int activity_main=0x7f030005;
+        public static final int activity_progress_activities=0x7f030006;
+        public static final int myosdk__activity_scan=0x7f030007;
+        public static final int myosdk__device_list_item=0x7f030008;
+        public static final int myosdk__fragment_scan=0x7f030009;
     }
     public static final class menu {
-        public static final int excercise=0x7f080000;
-        public static final int excercises=0x7f080001;
-        public static final int friends=0x7f080002;
-        public static final int leader_board=0x7f080003;
-        public static final int main=0x7f080004;
-        public static final int myosdk__fragment_scan=0x7f080005;
-        public static final int progress_activities=0x7f080006;
+        public static final int challenge=0x7f080000;
+        public static final int excercise=0x7f080001;
+        public static final int excercises=0x7f080002;
+        public static final int friends=0x7f080003;
+        public static final int leader_board=0x7f080004;
+        public static final int main=0x7f080005;
+        public static final int myosdk__fragment_scan=0x7f080006;
+        public static final int progress_activities=0x7f080007;
     }
     public static final class string {
         public static final int action_settings=0x7f060007;
@@ -77,6 +98,7 @@ public final class R {
         public static final int myosdk__firmware_incompatible=0x7f060004;
         public static final int myosdk__title_activity_scan=0x7f060000;
         public static final int myosdk__unknown_myo=0x7f060003;
+        public static final int title_activity_challenge=0x7f06000d;
         public static final int title_activity_excercise=0x7f06000c;
         public static final int title_activity_excercises=0x7f060008;
         public static final int title_activity_friends=0x7f06000a;
