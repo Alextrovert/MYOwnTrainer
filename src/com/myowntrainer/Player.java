@@ -6,7 +6,7 @@ import com.ibm.mobile.services.data.IBMDataObjectSpecialization;
 @IBMDataObjectSpecialization("Player")
 public class Player extends IBMDataObject {
     private static final String NAME = "name", NUMBER = "11";
-
+   
     public String getName() {
         return (String) getObject(NAME);
     }

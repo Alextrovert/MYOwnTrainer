@@ -3,47 +3,48 @@ package com.myowntrainer;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import bolts.Continuation;
 import bolts.Task;
 
-import com.myowntrainer.R;
 import com.ibm.mobile.services.cloudcode.IBMCloudCode;
 import com.ibm.mobile.services.core.IBMBluemix;
 import com.ibm.mobile.services.data.IBMData;
 import com.ibm.mobile.services.data.IBMDataObject;
 import com.ibm.mobile.services.data.file.IBMFileSync;
 import com.thalmic.myo.AbstractDeviceListener;
+import com.thalmic.myo.Arm;
 import com.thalmic.myo.DeviceListener;
 import com.thalmic.myo.Hub;
 import com.thalmic.myo.Myo;
 import com.thalmic.myo.Pose;
+import com.thalmic.myo.Quaternion;
+import com.thalmic.myo.XDirection;
 import com.thalmic.myo.scanner.ScanActivity;
 
 
 public class MainActivity extends Activity {
-    public static final String APPLICATION_ID = "294e7073-3b20-4ce2-aff1-56eb59a624fc"
-            , APPLICATION_SECRET = "075afadf49b2dc31d448abdc6e0b54c59a7a6fdd"
-            , APPLICATION_ROUTE = "sportshack2014cloud.mybluemix.net";
-    
+    public static final String APPLICATION_ID = "d435ede4-530e-4cde-b116-0aa7002e0f27"
+            , APPLICATION_SECRET = "1aff7af281a13147b427b5d1c7fd5bea10533d9b"
+            , APPLICATION_ROUTE = "MYOwnTrainerCloud.mybluemix.net";
+
+    public String poseString = "", rollString = "", pitchString = "", yawString = "";
+    MainPanel panel;
     LinearLayout ll;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ll = new LinearLayout(this);
-        ll.addView(new MainPanel(this));
+       // setContentView(R.layout.activity_main);
+        panel = new MainPanel(this);
+        ll.addView(panel);
         setContentView(ll);
-        //setContentView(R.layout.activity_main);
-
         //status = (TextView) findViewById(R.id.status);
         //status.setBackgroundColor(Color.DKGRAY);
 
@@ -138,8 +139,11 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ScanActivity.class);
         this.startActivity(intent);
     }
-
+    
     private DeviceListener mListener = new AbstractDeviceListener() {
+        private Arm mArm = Arm.UNKNOWN;
+        private XDirection mXDirection = XDirection.UNKNOWN;
+        
         @Override
         public void onConnect(Myo myo, long timestamp) {
             Toast.makeText(MainActivity.this, "Myo Connected!", Toast.LENGTH_SHORT).show();
@@ -147,6 +151,40 @@ public class MainActivity extends Activity {
             //status.setText("Myo Connected");
         }
 
+        @Override
+        public void onArmRecognized(Myo myo, long timestamp, Arm arm, XDirection xDirection) {
+            mArm = arm;
+            mXDirection = xDirection;
+        }
+        
+        @Override
+        public void onArmLost(Myo myo, long timestamp) {
+            mArm = Arm.UNKNOWN;
+            mXDirection = XDirection.UNKNOWN;
+        }
+        
+        @Override
+        public void onOrientationData(Myo myo, long timestamp, Quaternion rotation) {
+            // Calculate Euler angles (roll, pitch, and yaw) from the quaternion.
+            float roll = (float) Math.toDegrees(Quaternion.roll(rotation));
+            float pitch = (float) Math.toDegrees(Quaternion.pitch(rotation));
+            float yaw = (float) Math.toDegrees(Quaternion.yaw(rotation));
+            // Adjust roll and pitch for the orientation of the Myo on the arm.
+            if (mXDirection == XDirection.TOWARD_ELBOW) {
+                roll *= -1;
+                pitch *= -1;
+            }
+            // Next, we apply a rotation to the text view using the roll, pitch, and yaw.
+           /* mTextView.setRotation(roll);
+            mTextView.setRotationX(pitch);
+            mTextView.setRotationY(yaw);*/
+            rollString = "" + roll;
+            pitchString = "" + pitch;
+            yawString = "" + yaw;
+            panel.invalidate();
+        }
+
+        
         @Override
         public void onDisconnect(Myo myo, long timestamp) {
             Toast.makeText(MainActivity.this, "Myo Disconnected!", Toast.LENGTH_SHORT).show();
@@ -159,6 +197,9 @@ public class MainActivity extends Activity {
             Toast.makeText(MainActivity.this, "Pose: " + pose, Toast.LENGTH_SHORT).show();
             //status.setTextColor(Color.GREEN);
             //status.setText(pose.toString());
+            
+            poseString = pose.toString();
+            panel.invalidate();
             //TODO: Do something awesome.
         }
     };

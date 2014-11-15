@@ -39,7 +39,7 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f090007;
-        public static final int button1=0x7f090000;
+        public static final int layout=0x7f090000;
         public static final int myosdk__action_scan=0x7f090008;
         public static final int myosdk__connection_state_dot=0x7f090005;
         public static final int myosdk__firmware_incompatible_text=0x7f090003;

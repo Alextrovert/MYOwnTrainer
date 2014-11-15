@@ -11,7 +11,7 @@ int drawable ic_launcher 0x7f020000
 int drawable myosdk__connected_dot 0x7f020001
 int drawable myosdk__firmware_incompatible_dot 0x7f020002
 int id action_settings 0x7f090007
-int id button1 0x7f090000
+int id layout 0x7f090000
 int id myosdk__action_scan 0x7f090008
 int id myosdk__connection_state_dot 0x7f090005
 int id myosdk__firmware_incompatible_text 0x7f090003

@@ -88,12 +88,12 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback {
 	private void screenTouched(float eventX, float eventY) {
 		int intX = (int) eventX, intY = (int) eventY;
 		if (Myo.contains(intX, intY)) {
-			context.findMyo();
+		    context.findMyo();
 		}
 	}
 	
 	private void screenMoved(float eventX, float eventY) {
-
+	    
 	}
 	
 	private void screenReleased(float eventX, float eventY) {
@@ -102,6 +102,13 @@ public class MainPanel extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void draw(Canvas canvas, Paint paint) {
 		int x = 20, y = 25, boxWidth = 50, boxHeight = 75;
+		paint.setStrokeWidth(3);
+		paint.setTextSize(30);
+		canvas.drawText(context.poseString, 500, 500, paint);
+        canvas.drawText(context.yawString, 500, 600, paint);
+        canvas.drawText(context.pitchString, 500, 700, paint);
+        canvas.drawText(context.rollString, 500, 800, paint);
+		//canvas.drawText();
 		canvas.drawRect(Myo, paint);
 		canvas.drawRect(new Rect(x, y, boxWidth, boxHeight), paint);
 	}
