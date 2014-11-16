@@ -1,5 +1,6 @@
 package com.myowntrainer;
 
+import java.text.Format;
 import java.util.Random;
 
 import android.content.Context;
@@ -17,9 +18,11 @@ public class ExercisePanel extends SurfaceView implements SurfaceHolder.Callback
     ExerciseActivity context;
     PanelThread _thread;      
     public Paint paint = new Paint();
-    Rect reset = new Rect(740, 45, 1075, 380);
-    Rect done = new Rect(5, 20, 400, 400);
+    Rect reset = new Rect(5, 20, 350, 350);
+    Rect done = new Rect(720, 45, 1075, 380);
     Random r = new Random();
+    
+    public Bitmap bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
     public Bitmap blacktile = BitmapFactory.decodeResource(getResources(), R.drawable.greytile);
     public Bitmap bluetile = BitmapFactory.decodeResource(getResources(), R.drawable.bluetile);
     public Bitmap redtile = BitmapFactory.decodeResource(getResources(), R.drawable.redtile);
@@ -38,17 +41,17 @@ public class ExercisePanel extends SurfaceView implements SurfaceHolder.Callback
         this.setBackgroundColor(Color.WHITE);
         
         if (exercise.equals(ExerciseListPanel.burpeeStr)) {
-        	counter = new BurpeesCounter();
+          counter = new BurpeesCounter();
         } else if (exercise.equals(ExerciseListPanel.joggingStr)) {
-        	counter = new JoggingCounter();
+          counter = new JoggingCounter();
         } else if (exercise.equals(ExerciseListPanel.pushupStr)) {
-        	counter = new PushupCounter();
+          counter = new PushupCounter();
         } else if (exercise.equals(ExerciseListPanel.jumpingjackStr)) {
-        	counter = new JumpingjacksCounter();
+          counter = new JumpingjacksCounter();
         } else if (exercise.equals(ExerciseListPanel.situpStr)) {
-        	counter = new SitupsCounter();
+          counter = new SitupsCounter();
         } else {
-        	counter = new JoggingCounter();
+          counter = new JoggingCounter();
         }
     }
 
@@ -76,19 +79,19 @@ public class ExercisePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         try {
-            _thread.setRunning(false);                //Tells thread to stop
-            _thread.join();                           //Removes thread from mem.
+            _thread.setRunning(false); //Tells thread to stop
+            _thread.join();            //Removes thread from mem.
         } catch (InterruptedException e) {}
     }
     
     private int col_num = 1;
 
     public void init() {
-    	int col_num = r.nextInt(3 - 1 + 1) + 1;
+      int col_num = r.nextInt(3 - 1 + 1) + 1;
     }
 
     public void update() {
-    	counter.update(context.roll, context.pitch, context.yaw);
+      counter.update(context.roll, context.pitch, context.yaw);
     }
     
     @Override
@@ -114,10 +117,10 @@ public class ExercisePanel extends SurfaceView implements SurfaceHolder.Callback
     private void screenTouched(float eventX, float eventY) {
         int intX = (int)eventX, intY = (int)eventY;
         if (reset.contains(intX, intY)) {
-        	counter.setRep(0);
-		} else if (done.contains(intX, intY)) {
-			context.done(counter.getReps());
-		}
+          counter.setRep(0);
+    } else if (done.contains(intX, intY)) {
+      context.done(counter.getReps());
+    }
     }
     
     private void screenMoved(float eventX, float eventY) {
@@ -127,35 +130,38 @@ public class ExercisePanel extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void draw(Canvas canvas, Paint paint) {
+      canvas.drawBitmap(bg, null, new Rect(0, 0, 1080, 1920), paint);
       
-    	paint.setTextSize(225);
+      paint.setTextSize(225);
 
-    	canvas.drawBitmap(reseticon,null,reset,paint);
-    	canvas.drawBitmap(doneicon,null,done,paint);
-    	
-    	if (col_num == 1)
-    		canvas.drawBitmap(blacktile, null, new Rect(220,430,860,1120), paint);
-    	else if (col_num == 2)
-    		canvas.drawBitmap(bluetile, null, new Rect(220,430,860,1120), paint);
-    	else if (col_num == 3)
-    		canvas.drawBitmap(redtile, null, new Rect(220,430,860,1120), paint);
-    	    	
+      canvas.drawBitmap(reseticon, null, reset, paint);
+      canvas.drawBitmap(doneicon, null, done, paint);
+      
+      if (col_num == 1)
         canvas.drawBitmap(blacktile, null, new Rect(220, 430, 860, 1120), paint);
-    	if (exercise != null) {
-    		paint.setColor(Color.WHITE);
-    		
-    		if (exercise.equals(ExerciseListPanel.joggingStr)) {
-    			canvas.drawText(String.format("%.0f m", counter.getReps()), 450, 840, paint);
-    		} else {
-    			canvas.drawText(String.format("%.0f", counter.getReps()), 475, 840, paint);
-    		}
-    		
-    		paint.setTextSize(100);
-    		paint.setColor(Color.BLACK);
-    		if (exercise.equals(ExerciseListPanel.jumpingjackStr))
-    			canvas.drawText(context.exercise, 230, 1250, paint);
-    		else 
-    			canvas.drawText(context.exercise, 360, 1250, paint);
-    	}
+      else if (col_num == 2)
+        canvas.drawBitmap(bluetile, null, new Rect(220, 430, 860, 1120), paint);
+      else if (col_num == 3)
+        canvas.drawBitmap(redtile, null, new Rect(220, 430, 860, 1120), paint);
+            
+        canvas.drawBitmap(blacktile, null, new Rect(220, 430, 860, 1120), paint);
+      if (exercise != null) {
+        paint.setColor(Color.WHITE);
+        
+        if (exercise.equals(ExerciseListPanel.joggingStr)) {
+          canvas.drawText(String.format("%04.0f", counter.getReps()), 290, 800, paint);
+          canvas.drawText("m", 440, 970, paint);
+        } else {
+          canvas.drawText(String.format("%03.0f", counter.getReps()), 350, 860, paint);
+        }
+        
+        paint.setTextSize(100);
+        paint.setColor(Color.BLACK);
+        if (context.exercise.equals(ExerciseListPanel.jumpingjackStr)) {
+          canvas.drawText(context.exercise, 155, 1300, paint);
+        } else {
+          canvas.drawText(context.exercise, 240, 1300, paint);
+        }
+      }
     }
 }
