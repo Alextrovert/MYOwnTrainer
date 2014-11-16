@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     public static final String APPLICATION_ID = "294e7073-3b20-4ce2-aff1-56eb59a624fc"
             , APPLICATION_SECRET = "075afadf49b2dc31d448abdc6e0b54c59a7a6fdd"
             , APPLICATION_ROUTE = "sportshack2014cloud.mybluemix.net";
-    
+    static Hub hub;
     LinearLayout ll;
     
     @Override
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 
     }
     private void initHub(){
-        Hub hub = Hub.getInstance();
+        hub = Hub.getInstance();
         if (!hub.init(this)) {
             Log.e("Error", "Could not initialize the Hub.");
             //status.setText("Could not initialize the Hub.");
@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
             //status.setTextColor(Color.CYAN);
             //status.setText("Hub Initialized");
         }
-        Hub.getInstance().addListener(mListener);
+        //Hub.getInstance().addListener(ExcerciseActivity.mListener);
     }
     
     private void initBluemix() {
@@ -107,12 +107,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // We don't want any callbacks when the Activity is gone, so unregister the listener.
-        Hub.getInstance().removeListener(mListener);
-        if (isFinishing()) {
-            // The Activity is finishing, so shutdown the Hub. This will disconnect from the Myo.
-            Hub.getInstance().shutdown();
-        }
     }
 
     @Override
@@ -163,29 +157,4 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, LeaderBoardActivity.class);
         this.startActivity(intent);
     }
-
-    private DeviceListener mListener = new AbstractDeviceListener() {
-        @Override
-        public void onConnect(Myo myo, long timestamp) {
-            Toast.makeText(MainActivity.this, "Myo Connected!", Toast.LENGTH_SHORT).show();
-            //status.setTextColor(Color.GREEN);
-            //status.setText("Myo Connected");
-        }
-
-        @Override
-        public void onDisconnect(Myo myo, long timestamp) {
-            Toast.makeText(MainActivity.this, "Myo Disconnected!", Toast.LENGTH_SHORT).show();
-            //status.setTextColor(Color.RED);
-            //status.setText("Myo Connected");
-        }
-
-        @Override
-        public void onPose(Myo myo, long timestamp, Pose pose) {
-            Toast.makeText(MainActivity.this, "Pose: " + pose, Toast.LENGTH_SHORT).show();
-            //status.setTextColor(Color.GREEN);
-            //status.setText(pose.toString());
-            //TODO: Do something awesome.
-        }
-    };
-
 }

@@ -27,6 +27,9 @@ public class ExcercisePanel extends SurfaceView implements SurfaceHolder.Callbac
         public Bitmap doneicon = BitmapFactory.decodeResource(getResources(), R.drawable.doneicon);
         
         String exercise;
+        
+        JoggingCounter bc = new JoggingCounter();
+        
         //Constructors
         public ExcercisePanel(Context context, String exercise) { 
             super(context);
@@ -70,7 +73,10 @@ public class ExcercisePanel extends SurfaceView implements SurfaceHolder.Callbac
         }   
 
         public void update() {
-
+            if(exercise == "BURPEE"){
+                bc.update(context.Pose, context.Roll, context.Pitch, context.Yaw);
+            }
+            
         }
         
         @Override
@@ -112,7 +118,7 @@ public class ExcercisePanel extends SurfaceView implements SurfaceHolder.Callbac
         }
 
         public void draw(Canvas canvas, Paint paint) {
-        	int num = r.nextInt(3 - 1 + 1) + 1;
+        	/*int num = r.nextInt(3 - 1 + 1) + 1;
         	paint.setTextSize(225);
 
         	canvas.drawBitmap(reseticon,null,reset,paint);
@@ -125,9 +131,11 @@ public class ExcercisePanel extends SurfaceView implements SurfaceHolder.Callbac
         	else if(num == 3)
         		canvas.drawBitmap(redtile,null,new Rect(220,430,860,1120), paint);
         		
+        		*/
+            canvas.drawBitmap(blacktile,null,new Rect(220,430,860,1120), paint);
         	if(exercise!=null){
         		paint.setColor(Color.WHITE);
-        		canvas.drawText("" + context.reps, 475, 840, paint);
+        		canvas.drawText("" + bc.getReps(), 475, 840, paint);
         		paint.setTextSize(100);
         		paint.setColor(Color.BLACK);
         		if(exercise.equals("JUMPING JACK"))
