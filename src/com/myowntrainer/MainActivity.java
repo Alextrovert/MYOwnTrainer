@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,16 +29,19 @@ import com.thalmic.myo.Myo;
 import com.thalmic.myo.Pose;
 import com.thalmic.myo.scanner.ScanActivity;
 
-
 public class MainActivity extends Activity {
+	
     public static final String APPLICATION_ID = "294e7073-3b20-4ce2-aff1-56eb59a624fc"
             , APPLICATION_SECRET = "075afadf49b2dc31d448abdc6e0b54c59a7a6fdd"
-            , APPLICATION_ROUTE = "sportshack2014cloud.mybluemix.net";
+             , APPLICATION_ROUTE = "sportshack2014cloud.mybluemix.net";
+    
     static Hub hub;
     LinearLayout ll;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                		     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         ll = new LinearLayout(this);
         ll.addView(new MainPanel(this));
@@ -49,8 +53,8 @@ public class MainActivity extends Activity {
 
         initHub();
         initBluemix();
-
     }
+    
     private void initHub(){
         hub = Hub.getInstance();
         if (!hub.init(this)) {
@@ -129,7 +133,7 @@ public class MainActivity extends Activity {
     }
     
     public void MyFitness() {
-        Intent intent = new Intent(this, ExcerciseListActivity.class);
+        Intent intent = new Intent(this, ExerciseListActivity.class);
         this.startActivity(intent);
     }
     

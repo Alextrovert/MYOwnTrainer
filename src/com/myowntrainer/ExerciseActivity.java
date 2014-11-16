@@ -21,28 +21,29 @@ import com.thalmic.myo.Quaternion;
 import com.thalmic.myo.XDirection;
 import com.thalmic.myo.scanner.ScanActivity;
 
-public class ExcerciseActivity extends Activity {
+public class ExerciseActivity extends Activity {
     
-    public static String Pose;
-    public static float Roll, Pitch, Yaw;
-    static ExcercisePanel panel;
+    public static String pose;
+    public static float roll, pitch, yaw;
+    public static ExercisePanel panel;
     LinearLayout ll;
-    String exercise = ExcerciseListActivity.excercise_entered;
-    int reps;
+    String exercise = ExerciseListActivity.excercise_entered;
+    Hub hub;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         ll = new LinearLayout(this);
-        panel = new ExcercisePanel(this, exercise);
+        panel = new ExercisePanel(this, exercise);
         ll.addView(panel);
         setContentView(ll);
-        reps = 4;
+        
         // First, we initialize the Hub singleton with an application identifier.
-        Hub hub = MainActivity.hub;
+        hub = MainActivity.hub;
+        
         /*hub = Hub.getInstance();
         if (!hub.init(this, getPackageName())) {
             // We can't do anything with the Myo device if the Hub can't be initialized, so exit.
@@ -52,11 +53,7 @@ public class ExcerciseActivity extends Activity {
         }
 
         // Next, register for DeviceListener callbacks.
-*/        hub.addListener(mListener);
-    }
-    
-    public void setReps(int val){
-    	this.reps = val;
+*/      hub.addListener(mListener);
     }
     
     @Override
@@ -74,12 +71,12 @@ public class ExcerciseActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         // We don't want any callbacks when the Activity is gone, so unregister the listener.
-        Hub.getInstance().removeListener(mListener);
+        hub.removeListener(mListener);
 
-        if (isFinishing()) {
+        /*if (isFinishing()) {
             // The Activity is finishing, so shutdown the Hub. This will disconnect from the Myo.
             Hub.getInstance().shutdown();
-        }
+        }*/
     }
 
     @Override
@@ -105,7 +102,12 @@ public class ExcerciseActivity extends Activity {
         Intent intent = new Intent(this, ScanActivity.class);
         startActivity(intent);
     }
-
+    
+    public void done(float count) {
+        Intent intent = new Intent(this, ExerciseListActivity.class);
+        startActivity(intent);
+    }
+    
     //-------------------------------------------DEVICE LISTENER----------------------
     // Classes that inherit from AbstractDeviceListener can be used to receive events from Myo devices.
     // If you do not override an event, the default behavior is to do nothing.
@@ -148,9 +150,9 @@ public class ExcerciseActivity extends Activity {
         @Override
         public void onOrientationData(Myo myo, long timestamp, Quaternion rotation) {
             // Calculate Euler angles (roll, pitch, and yaw) from the quaternion.
-            float roll = (float) Math.toDegrees(Quaternion.roll(rotation));
-            float pitch = (float) Math.toDegrees(Quaternion.pitch(rotation));
-            float yaw = (float) Math.toDegrees(Quaternion.yaw(rotation));
+            roll = (float)Math.toDegrees(Quaternion.roll(rotation));
+            pitch = (float)Math.toDegrees(Quaternion.pitch(rotation));
+            yaw = (float)Math.toDegrees(Quaternion.yaw(rotation));
 
             // Adjust roll and pitch for the orientation of the Myo on the arm.
             if (mXDirection == XDirection.TOWARD_ELBOW) {
@@ -162,22 +164,20 @@ public class ExcerciseActivity extends Activity {
            /* Pose.setRotation(roll);
             Pose.setRotationX(pitch);
             Pose.setRotationY(yaw);*/
-            Roll = roll;
-            Pitch = pitch;
-            Yaw =  yaw;
-            panel.invalidate();
             
-
+            panel.invalidate();
         }
 
         // onPose() is called whenever a Myo provides a new pose.
         @Override
-        public void onPose(Myo myo, long timestamp, Pose pose) {
+        public void onPose(Myo myo, long timestamp, Pose p) {
             //Toast.makeText(MainActivity.this, "Pose: " + pose, Toast.LENGTH_SHORT).show();
             //status.setTextColor(Color.GREEN);
             //status.setText(pose.toString());
-            Pose = pose.toString();
+        	
+            pose = p.toString();
             panel.invalidate();
+            
             //TODO: Do something awesome.
         }
     };

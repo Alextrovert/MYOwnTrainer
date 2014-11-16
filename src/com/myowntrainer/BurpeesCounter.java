@@ -3,31 +3,27 @@ package com.myowntrainer;
 public class BurpeesCounter extends ExerciseCounter {
 
 	@Override
-	public void update(String po, float r, float p, float y) {
+	public void update(float r, float p, float y) {
 		if (R.size() > 200) {
-			Po.removeFirst();
 			R.removeFirst();
 			P.removeFirst();
-			Y.removeFirst();
+			//Y.removeFirst();
 		}
-		Po.add(po);
 		R.add(r);
 		P.add(p);
-		Y.add(y);
+		//Y.add(y);
 		interpretData();
 	}
 	
 	@Override
 	public void interpretData() {
-		if (Po.size() > 200) {
-			
+		if (R.size() > 200) {
 			int stage = 0, end = 0;
 			/*
 			 * stage 0: arms down
 			 * stage 1: arms up
 			 * stage 2: arms down
 			 */
-			
 			if (!P.isEmpty() && P.get(0) > 40) for (int i = 5; i < 200; i++) {
 				if (stage == 0 && P.get(i) < -40) {
 					stage++;
@@ -44,10 +40,9 @@ public class BurpeesCounter extends ExerciseCounter {
 			if (stage == 4) {
 				totalReps++;
 				for (int i = 0; i < end; i++) {
-					Po.removeFirst();
 					P.removeFirst();
 					R.removeFirst();
-					Y.removeFirst();
+					//Y.removeFirst();
 				}
 			}
 		}

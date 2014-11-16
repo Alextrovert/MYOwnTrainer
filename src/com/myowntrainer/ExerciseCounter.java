@@ -10,27 +10,23 @@ public class ExerciseCounter {
 	
 	protected float totalReps;
 	
-	protected LinkedList<String> Po; //pose
 	protected LinkedList<Float> R; //roll
 	protected LinkedList<Float> P; //pitch
 	protected LinkedList<Float> Y; //yaw
 	
 	public ExerciseCounter() {
 		totalReps = 0;
-		Po = new LinkedList<String>();
 		R = new LinkedList<Float>();
 		P = new LinkedList<Float>();
 		Y = new LinkedList<Float>();
 	}
 	
-	public void update(String po, float r, float p, float y) {
+	public void update(float r, float p, float y) {
 		if (R.size() > cachePoints) {
-			Po.removeFirst();
 			R.removeFirst();
 			P.removeFirst();
 			Y.removeFirst();
 		}
-		Po.add(po);
 		R.add(r);
 		P.add(p);
 		Y.add(y);
@@ -48,7 +44,6 @@ public class ExerciseCounter {
 	//reset all of the data and count them as an extra rep
 	public void addRep(float delta) {
 		totalReps += delta;
-		Po.clear();
 		R.clear();
 		P.clear();
 		Y.clear();
@@ -56,5 +51,9 @@ public class ExerciseCounter {
 	
 	public void addRep() {
 		addRep(1.0f);
+	}
+	
+	public void setRep(float reps) {
+		totalReps = reps;
 	}
 }

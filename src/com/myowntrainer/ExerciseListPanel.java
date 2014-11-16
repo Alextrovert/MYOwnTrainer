@@ -11,9 +11,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class ExcerciseListPanel extends SurfaceView implements SurfaceHolder.Callback  {
-    ExcerciseListActivity context;
-    PanelThread _thread;      
+public class ExerciseListPanel extends SurfaceView implements SurfaceHolder.Callback {
+	
+    ExerciseListActivity context;
+    PanelThread _thread;    
+    
     public Paint paint = new Paint();
     public Bitmap burpee = BitmapFactory.decodeResource(getResources(), R.drawable.burpeestile);
     public Bitmap running = BitmapFactory.decodeResource(getResources(), R.drawable.runningtile);
@@ -21,24 +23,22 @@ public class ExcerciseListPanel extends SurfaceView implements SurfaceHolder.Cal
     public Bitmap jumpingjack = BitmapFactory.decodeResource(getResources(), R.drawable.jumpingjacktile);
     public Bitmap situp = BitmapFactory.decodeResource(getResources(), R.drawable.situptile);
     
-    Rect burpeeRect = new Rect(200,75,580,500);
-    Rect runningRect =  new Rect(450,400,850,820);
-    Rect pushupRect = new Rect(200,720,580,1140);
-    Rect jumpingjackRect = new Rect(450,1040,850,1460);
-    Rect situpRect = new Rect(200,1360,580,1780);
+    Rect burpeeRect = new Rect(200, 75, 580, 500);
+    Rect runningRect =  new Rect(480, 400, 850, 820);
+    Rect pushupRect = new Rect(160, 720, 580, 1140);
+    Rect jumpingjackRect = new Rect(475, 1040, 850, 1460);
+    Rect situpRect = new Rect(200, 1360, 580, 1780);
     
-    String burpeeStr = "BURPEE";
-    String runningStr = "RUNNING";
-    String pushupStr = "PUSH-UP";
-    String jumpingStr = "JUMPING";
-    String jackStr = "JACK";
-    String jumpingjackStr = "JUMPING JACK";
-    String situpStr = "SIT-UP";
+    public static String burpeeStr = "BURPEES";
+    public static String joggingStr = "JOGGING";
+    public static String pushupStr = "PUSH-UPS";
+    public static String jumpingjackStr = "JUMPING-JACKS";
+    public static String situpStr = "SIT-UPS";
     
     //Constructors
-    public ExcerciseListPanel(Context context) { 
+    public ExerciseListPanel(Context context) { 
         super(context);
-        this.context = (ExcerciseListActivity) context;          
+        this.context = (ExerciseListActivity) context;          
         this.setBackgroundColor(Color.WHITE);
     }
 
@@ -110,17 +110,13 @@ public class ExcerciseListPanel extends SurfaceView implements SurfaceHolder.Cal
         int intX = (int) eventX, intY = (int) eventY;
         if (burpeeRect.contains(intX, intY)) {
 			context.Exercise(burpeeStr);
-		}
-		else if (runningRect.contains(intX, intY)) {
-			context.Exercise(runningStr);
-		}
-		else if (pushupRect.contains(intX, intY)) {
+		} else if (runningRect.contains(intX, intY)) {
+			context.Exercise(joggingStr);
+		} else if (pushupRect.contains(intX, intY)) {
 			context.Exercise(pushupStr);
-		}
-		else if (jumpingjackRect.contains(intX, intY)) {
+		} else if (jumpingjackRect.contains(intX, intY)) {
 			context.Exercise(jumpingjackStr);
-		}
-		else if (situpRect.contains(intX, intY)) {
+		} else if (situpRect.contains(intX, intY)) {
 			context.Exercise(situpStr);
 		}
     }
@@ -134,17 +130,17 @@ public class ExcerciseListPanel extends SurfaceView implements SurfaceHolder.Cal
     }
 
     public void draw(Canvas canvas, Paint paint) {
-    		paint.setTextSize(80);
-    		canvas.drawBitmap(burpee, null, burpeeRect, paint);
-    		canvas.drawText(burpeeStr, 600, 285, paint);
-    		canvas.drawBitmap(running, null, runningRect, paint);
-    		canvas.drawText(runningStr, 115, 615, paint);
-    		canvas.drawBitmap(pushup, null, pushupRect, paint);
-    		canvas.drawText(pushupStr, 600, 955, paint);
-    		canvas.drawBitmap(jumpingjack, null, jumpingjackRect, paint);
-    		canvas.drawText(jumpingStr, 115, 1250, paint);
-    		canvas.drawText(jackStr, 165, 1325, paint);
-    		canvas.drawBitmap(situp, null, situpRect, paint);
-    		canvas.drawText(situpStr, 600, 1620, paint);
+		paint.setTextSize(80);
+		canvas.drawBitmap(burpee, null, burpeeRect, paint);
+		canvas.drawText(burpeeStr, 600, 285, paint);
+		canvas.drawBitmap(running, null, runningRect, paint);
+		canvas.drawText(joggingStr, 115, 615, paint);
+		canvas.drawBitmap(pushup, null, pushupRect, paint);
+		canvas.drawText(pushupStr, 620, 955, paint);
+		canvas.drawBitmap(jumpingjack, null, jumpingjackRect, paint);
+		canvas.drawText("JUMPING", 85, 1250, paint);
+		canvas.drawText("JACK", 165, 1325, paint);
+		canvas.drawBitmap(situp, null, situpRect, paint);
+		canvas.drawText(situpStr, 620, 1620, paint);
     }
 }

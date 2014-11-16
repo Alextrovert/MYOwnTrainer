@@ -3,23 +3,21 @@ package com.myowntrainer;
 public class JumpingjacksCounter extends ExerciseCounter {
 
 	@Override
-	public void update(String po, float r, float p, float y) {
-		if (R.size() > 100) {
-			Po.removeFirst();
-			R.removeFirst();
+	public void update(float r, float p, float y) {
+		if (R.size() > 80) {
+			//R.removeFirst();
 			P.removeFirst();
-			Y.removeFirst();
+			//Y.removeFirst();
 		}
-		Po.add(po);
-		R.add(r);
+		//R.add(r);
 		P.add(p);
-		Y.add(y);
+		//Y.add(y);
 		interpretData();
 	}
 	
 	@Override
 	public void interpretData() {
-		if (Po.size() > 100) {
+		if (P.size() > 80) {
 			
 			int stage = 0, end = 0;
 			/*
@@ -27,7 +25,7 @@ public class JumpingjacksCounter extends ExerciseCounter {
 			 * stage 1: arms up
 			 * stage 2: arms down
 			 */
-			if (!P.isEmpty() && P.get(0) > 50) for (int i = 5; i < 100; i++) {
+			if (!P.isEmpty() && P.get(0) > 50) for (int i = 5; i < 80; i++) {
 				if (stage == 0 && P.get(i) < -50) {
 					stage++;
 				} else if (stage == 1 && P.get(i) > 50) {
@@ -39,10 +37,9 @@ public class JumpingjacksCounter extends ExerciseCounter {
 			if (stage == 2) {
 				totalReps++;
 				for (int i = 0; i < end; i++) {
-					Po.removeFirst();
 					P.removeFirst();
-					R.removeFirst();
-					Y.removeFirst();
+					//R.removeFirst();
+					//Y.removeFirst();
 				}
 			}
 		}

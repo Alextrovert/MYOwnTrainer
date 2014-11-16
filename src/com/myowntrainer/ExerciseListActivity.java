@@ -7,7 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-public class ExcerciseListActivity extends Activity {
+public class ExerciseListActivity extends Activity {
 
     public static String excercise_entered = null;
 	LinearLayout ll;
@@ -19,12 +19,12 @@ public class ExcerciseListActivity extends Activity {
                                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         ll = new LinearLayout(this);
-        ll.addView(new ExcerciseListPanel(this));
+        ll.addView(new ExerciseListPanel(this));
         setContentView(ll);
     }
 
     public void Exercise(String str) {
-        Intent intent = new Intent(this, ExcerciseActivity.class);
+        Intent intent = new Intent(this, ExerciseActivity.class);
         excercise_entered = str;
         this.startActivity(intent);
     }
