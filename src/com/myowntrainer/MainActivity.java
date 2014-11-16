@@ -31,9 +31,9 @@ import com.thalmic.myo.scanner.ScanActivity;
 
 public class MainActivity extends Activity {
 	
-    public static final String APPLICATION_ID = "294e7073-3b20-4ce2-aff1-56eb59a624fc"
-            , APPLICATION_SECRET = "075afadf49b2dc31d448abdc6e0b54c59a7a6fdd"
-             , APPLICATION_ROUTE = "sportshack2014cloud.mybluemix.net";
+    public static final String APPLICATION_ID = "d435ede4-530e-4cde-b116-0aa7002e0f27"
+            , APPLICATION_SECRET = "1aff7af281a13147b427b5d1c7fd5bea10533d9b"
+             , APPLICATION_ROUTE = "MYOwnTrainerCloud.mybluemix.net";
     
     static Hub hub;
     LinearLayout ll;
@@ -75,27 +75,8 @@ public class MainActivity extends Activity {
         IBMData.initializeService();
         IBMData dataService = IBMData.initializeService(); //Initializing object storage capability
         IBMFileSync fileSync = IBMFileSync.initializeService(); //Initializing file storage capability
-        Player.registerSpecialization(Player.class); //Registering a specialization
-        //IBMPush.initializeService();
-        //createAndSavePlayer("11", "Vanshil");
-    }
-    
-    private void createAndSavePlayer(String number, String name) {
-        Player player = new Player(number, name);
-        player.save().continueWith(new Continuation<IBMDataObject, Void>() {
-        	@Override
-        	public Void then(Task<IBMDataObject> task) throws Exception {
-                if (task.isFaulted()) {
-                    // Handle errors
-                    //status.setText("no work");
-                } else {
-                    Player myPlayer = (Player) task.getResult();
-                    //status.setText("player created!");
-                    // Do more work
-                }
-                return null;
-        	}
-        });
+        ExLog.registerSpecialization(ExLog.class); //Registering a specialization
+        
     }
     
     @Override

@@ -10,7 +10,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import bolts.Continuation;
+import bolts.Task;
 
+import com.myowntrainer.ExLog;
+import com.ibm.mobile.services.data.IBMDataObject;
 import com.thalmic.myo.AbstractDeviceListener;
 import com.thalmic.myo.Arm;
 import com.thalmic.myo.DeviceListener;
@@ -22,7 +26,7 @@ import com.thalmic.myo.XDirection;
 import com.thalmic.myo.scanner.ScanActivity;
 
 public class ExerciseActivity extends Activity {
-    
+    public String user = "Alex";
     public static String pose;
     public static float roll, pitch, yaw;
     public static ExercisePanel panel;
@@ -104,8 +108,30 @@ public class ExerciseActivity extends Activity {
     }
     
     public void done(float count) {
+        hub.removeListener(mListener);
+        saveData(count);
         Intent intent = new Intent(this, ExerciseListActivity.class);
         startActivity(intent);
+    }
+    public void saveData(float count){
+        ExLog exlog = new ExLog();
+        exlog.setName(user);
+        exlog.setExercise(exercise);
+        exlog.setReps(String.format("%.2f", count));
+        exlog.save().continueWith(new Continuation<IBMDataObject, Void>() {
+            @Override
+            public Void then(Task<IBMDataObject> task) throws Exception {
+                if (task.isFaulted()) {
+                    // Handle errors
+                    //status.setText("no work");
+                } else {
+                   
+                    //status.setText("player created!");
+                    // Do more work
+                }
+                return null;
+            }
+        });
     }
     
     //-------------------------------------------DEVICE LISTENER----------------------
